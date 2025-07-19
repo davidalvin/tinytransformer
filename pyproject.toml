@@ -1,0 +1,20 @@
+[project]
+name = "tinytransformer"
+version = "0.1.0"
+description = "A from-scratch Transformer LM for CS336"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "torch",
+    "transformers",
+    "tokenizers",
+    "pytest"
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+package-dir = {"" = "src"}

@@ -1,0 +1,142 @@
+############################
+#  Python byte‑code        #
+############################
+__pycache__/
+*.py[cod]
+*$py.class
+
+############################
+#  Jupyter/IPython         #
+############################
+.ipynb_checkpoints/
+
+############################
+#  Virtual environments    #
+############################
+.env/
+.venv/
+env/
+venv/
+
+############################
+#  PyTorch & training artefacts #
+############################
+*.pth
+*.pt
+*.ckpt
+*.npz
+*.npy
+*.onnx
+*.pb
+*.tflite
+
+############################
+#  Logs & temp files       #
+############################
+*.log
+*.out
+*.err
+*.trace
+*.prof
+*.profile
+*.dat
+*.tmp
+
+############################
+#  Reference documents     #
+############################
+*.pdf
+
+############################
+#  Checkpoints & experiments #
+############################
+checkpoints/
+wandb/
+logs/
+runs/
+experiments/
+outputs/
+
+############################
+#  Tokenizer artefacts     #
+############################
+tokenizer/
+vocab.json
+merges.txt
+
+############################
+#  DATA                    #
+############################
+/data/                                   # only the **top‑level** dataset folder is ignored
+src/tinytransformer/input/               # generated inputs (npy/jsonl/txt) ignored
+!src/tinytransformer/input/README.md     # but keep a README
+
+# re‑include source code that lives in the package’s data module
+!src/tinytransformer/data/
+!src/tinytransformer/data/*.py
+
+############################
+#  Other dataset bundles   #
+############################
+datasets/
+*.tar.gz
+*.zip
+*.tgz
+*.gz
+*.csv
+
+############################
+#  System/IDE junk         #
+############################
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+############################
+#  OS backup files         #
+############################
+*.bak
+*.old
+*~
+
+############################
+#  Security / secrets      #
+############################
+secrets.json
+config.yaml
+.env.*
+*.key
+*.pem
+*.p12
+
+############################
+#  Build artefacts         #
+############################
+dist/
+build/
+*.egg-info/
+
+############################
+#  Experiment logs         #
+############################
+lightning_logs/
+trainer_state.json
+
+############################
+#  Coverage / test caches  #
+############################
+.coverage
+htmlcov/
+.pytest_cache/
+nosetests.xml
+test-results.xml
+junit-*.xml
+tests/__pycache__/
+
+############################
+#  Encrypted files (git‑crypt, etc.) #
+############################
+*.gpg
+*.enc
