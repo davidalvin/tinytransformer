@@ -56,6 +56,8 @@ logs/
 runs/
 experiments/
 outputs/
+lightning_logs/
+trainer_state.json
 
 ############################
 #  Tokenizer artefacts     #
@@ -63,19 +65,25 @@ outputs/
 tokenizer/
 vocab.json
 merges.txt
+src/tinytransformer/models/tokenizer.json
 
 ############################
 #  DATA                    #
 ############################
-data/tinystories_hf/                     # Hugging Face dataset download
-!data/.gitkeep                           # keep empty dir in repo if needed
+# raw downloaded HF dataset
+data_external/
+data/tinystories_hf/
+!data/.gitkeep
 
-src/tinytransformer/input/*.txt          # generated raw text
-src/tinytransformer/input/*.npy          # tokenized numpy arrays
-src/tinytransformer/input/*.jsonl        # preprocessed JSONL (if created)
-!src/tinytransformer/input/README.md     # preserve README or config docs
+# processed / intermediate files
+src/tinytransformer/input/*.txt
+src/tinytransformer/input/*.npy
+src/tinytransformer/input/*.jsonl
+!src/tinytransformer/input/README.md
 
-# re‑include source code that lives in the package’s data module
+############################
+#  Re-included package source
+############################
 !src/tinytransformer/data/
 !src/tinytransformer/data/*.py
 
@@ -88,6 +96,7 @@ datasets/
 *.tgz
 *.gz
 *.csv
+*.jsonl
 
 ############################
 #  System/IDE junk         #
@@ -121,12 +130,6 @@ config.yaml
 dist/
 build/
 *.egg-info/
-
-############################
-#  Experiment logs         #
-############################
-lightning_logs/
-trainer_state.json
 
 ############################
 #  Coverage / test caches  #
