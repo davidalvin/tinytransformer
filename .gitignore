@@ -67,9 +67,13 @@ merges.txt
 ############################
 #  DATA                    #
 ############################
-/data/                                   # only the **top‑level** dataset folder is ignored
-src/tinytransformer/input/               # generated inputs (npy/jsonl/txt) ignored
-!src/tinytransformer/input/README.md     # but keep a README
+data/tinystories_hf/                     # Hugging Face dataset download
+!data/.gitkeep                           # keep empty dir in repo if needed
+
+src/tinytransformer/input/*.txt          # generated raw text
+src/tinytransformer/input/*.npy          # tokenized numpy arrays
+src/tinytransformer/input/*.jsonl        # preprocessed JSONL (if created)
+!src/tinytransformer/input/README.md     # preserve README or config docs
 
 # re‑include source code that lives in the package’s data module
 !src/tinytransformer/data/
