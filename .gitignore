@@ -1,0 +1,103 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Jupyter/IPython
+.ipynb_checkpoints/
+
+# Virtual environments
+.env/
+.venv/
+env/
+venv/
+
+# PyTorch & training artifacts
+*.pth
+*.pt
+*.ckpt
+*.npz
+*.npy
+*.onnx
+*.pb
+*.tflite
+
+# Logs, profiler, debugging
+*.log
+*.out
+*.err
+*.trace
+*.prof
+*.profile
+*.dat
+*.tmp
+
+# Reference documents
+*.pdf
+
+# Checkpoints and experiments
+checkpoints/
+wandb/
+logs/
+runs/
+experiments/
+outputs/
+
+# Tokenizer artifacts
+tokenizer/
+vocab.json
+merges.txt
+
+# Dataset artifacts
+data/
+datasets/
+*.tar.gz
+*.zip
+*.tgz
+*.gz
+*.csv
+
+# System files
+.DS_Store
+Thumbs.db
+
+# VSCode/IDE
+.vscode/
+.idea/
+*.swp
+
+# OS-specific
+*.bak
+*.tmp
+*.old
+*~
+
+# Security
+secrets.json
+config.yaml
+.env.*
+*.key
+*.pem
+*.p12
+
+# Build tools
+dist/
+build/
+*.egg-info/
+
+# PyTorch Lightning, HuggingFace, or other experiment logs
+lightning_logs/
+trainer_state.json
+
+# Coverage or test
+.coverage
+htmlcov/
+.pytest_cache/
+nosetests.xml
+test-results.xml
+junit-*.xml
+tests/__pycache__/
+
+# Optional: ignore git-crypt encrypted files (adjust to your tools)
+*.gpg
+*.enc
