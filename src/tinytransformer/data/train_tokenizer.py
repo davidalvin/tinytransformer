@@ -19,12 +19,12 @@ trainer = BpeTrainer(
 )
 
 print(f"Training tokenizer on data at {DATA_PATH}...")
-tokenizer.train([DATA_PATH], trainer)
+tokenizer.train([str(DATA_PATH)], trainer)
 
 # ─── 2. Add decoder + post-processor for clean spaces ───────────────────────────
 tokenizer.decoder        = DecBL()                   # byte-level decoder
 tokenizer.post_processor = ProcBL(trim_offsets=True) # strips the “Ġ” artifacts
 
 # ─── 3. Save ────────────────────────────────────────────────────────────────────
-tokenizer.save(TOKENIZER_PATH)
+tokenizer.save(str(TOKENIZER_PATH))
 print(f"✅ Saved tokenizer (with clean decode) to {TOKENIZER_PATH}")

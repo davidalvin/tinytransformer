@@ -1,14 +1,16 @@
 import os
 import json
 from datasets import load_dataset, load_from_disk
-from tinytransformer.config.config import NUM_TRAIN_STORIES, TXT_PATH
+from tinytransformer.config.config import NUM_TRAIN_STORIES, TXT_PATH, HF_CACHE
 
-RAW_DATASET_DIR = "data/tinystories_hf"  # disk cache path
+RAW_DATASET_DIR = HF_CACHE
 
 SPLIT = "train"
 
 def get_or_download_dataset(num_examples=None, split="train"):
-    if os.path.exists(RAW_DATASET_DIR):
+    dataset_info_path = os.path.join(RAW_DATASET_DIR, "dataset_info.json")
+
+    if os.path.exists(RAW_DATASET_DIR) and os.path.exists(dataset_info_path):
         print(f"📦 Loading cached dataset from {RAW_DATASET_DIR}")
         dataset = load_from_disk(RAW_DATASET_DIR)
     else:
@@ -16,6 +18,7 @@ def get_or_download_dataset(num_examples=None, split="train"):
         dataset = load_dataset("roneneldan/TinyStories", split=split)
         if num_examples is not None:
             dataset = dataset.select(range(num_examples))
+        os.makedirs(RAW_DATASET_DIR, exist_ok=True)
         dataset.save_to_disk(RAW_DATASET_DIR)
         print(f"✅ Saved subset to {RAW_DATASET_DIR}")
     return dataset

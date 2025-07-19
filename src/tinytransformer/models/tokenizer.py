@@ -2,7 +2,7 @@ from transformers import PreTrainedTokenizerFast
 from tinytransformer.config.config import TOKENIZER_PATH
 
 # Load trained tokenizer from file using transformers wrapper
-_tokenizer = PreTrainedTokenizerFast(tokenizer_file=TOKENIZER_PATH)
+_tokenizer = PreTrainedTokenizerFast(tokenizer_file=str(TOKENIZER_PATH))
 
 def encode(text: str) -> list[int]:
     """Encode text into list of token IDs."""

@@ -20,7 +20,7 @@ from tinytransformer.config.config import DATA_PATH, TOKENS_PATH
 
 def count_lines(path: str) -> int:
     """Fast line-count helper."""
-    with open(path, "r", encoding="utf-8") as f:
+    with open(str(path), "r", encoding="utf-8") as f:
         return sum(1 for _ in f)
 
 
@@ -35,7 +35,7 @@ def save_tokenized_file_chunked(
     print(f"🧠 Found {total_lines} lines. Counting tokens …")
 
     total_tokens = 0
-    with open(source, "r", encoding="utf-8") as f:
+    with open(str(source), "r", encoding="utf-8") as f:
         for line in f:
             total_tokens += len(encode(line.strip()))
 
@@ -44,7 +44,7 @@ def save_tokenized_file_chunked(
     # ---------- allocate header-correct memmap ----------
     print(f"💾 Creating npy-compatible memmap at {out_path} …")
     arr = open_memmap(
-        out_path,
+        str(out_path),
         mode="w+",
         dtype=dtype,
         shape=(total_tokens,),
@@ -52,7 +52,7 @@ def save_tokenized_file_chunked(
 
     # ---------- 2nd pass: stream-encode & fill ----------
     idx = 0
-    with open(source, "r", encoding="utf-8") as f:
+    with open(str(source), "r", encoding="utf-8") as f:
         for line in f:
             tok = encode(line.strip())
             arr[idx : idx + len(tok)] = tok          # write slice
