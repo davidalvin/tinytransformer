@@ -3,9 +3,12 @@ from pathlib import Path
 # ------------------------------------------------------------------ #
 # Resolve paths relative to repo root                                #
 # ------------------------------------------------------------------ #
-_THIS_DIR   = Path(__file__).resolve().parent
-PROJECT_ROOT = _THIS_DIR.parent.parent          # src/
-REPO_ROOT    = PROJECT_ROOT.parent
+# If this file is at: src/tinytransformer/config/config.py
+# Then we want:
+_THIS_DIR    = Path(__file__).resolve().parent            # → config/
+PROJECT_ROOT = _THIS_DIR.parent                           # → tinytransformer/
+REPO_ROOT    = PROJECT_ROOT.parent.parent                 # → your repo root (one above src/)
+
 
 # ------------------------------------------------------------------ #
 # Data paths                                                         #
