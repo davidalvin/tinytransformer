@@ -1,47 +1,44 @@
+# generate.py
+
 import torch
+from tinytransformer.config.cli import parse_and_apply
+parse_and_apply()  # Apply CLI overrides to config
 
-from tinytransformer.models.transformer import TinyTransformerLM                # fixed: use correct module name
-from tinytransformer.models.tokenizer import encode, decode               # updated import
-from tinytransformer.config.config import BLOCK_SIZE, TOKENIZER_PATH, MODEL_PATH      # added MODEL_PATH
+from tinytransformer.config import config as C
+from tinytransformer.models.factory import build_model
 
-@torch.no_grad()
-def generate(model, prompt, max_tokens=100, context_length=BLOCK_SIZE, device="cpu"):
-    model.eval()
-    model.to(device)
 
-    # Encode initial prompt to token IDs
-    tokens = encode(prompt)
-    tokens = tokens[-context_length:]  # truncate if longer than context window
-    x = torch.tensor(tokens, dtype=torch.long, device=device).unsqueeze(0)  # (1, T)
-
-    for _ in range(max_tokens):
-        # Crop to context length
-        x_cond = x[:, -context_length:]  # (1, T)
-
-        logits = model(x_cond)  # (1, T, vocab_size)
-        next_logits = logits[0, -1]  # last token's logits: (vocab_size,)
-        probs = torch.softmax(next_logits, dim=-1)
-        next_id = torch.multinomial(probs, num_samples=1)  # sample
-
-        x = torch.cat([x, next_id.unsqueeze(0)], dim=1)  # append to sequence
-
-    return decode(x[0].tolist())
-
-# 🔽 Example usage
-if __name__ == "__main__":
+def main():
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    model = TinyTransformerLM()
-    model.load_state_dict(torch.load(MODEL_PATH, map_location=device))  # <-- use config
 
-    print("�� TinyTransformer is ready. Press Ctrl+C to exit.\n")
+    # Build the model architecture
+    model = build_model("tiny")
+
+    # Load trained weights into the model
+    model.load_state_dict(torch.load(C.MODEL_PATH, map_location=device))
+
+    print("✨ Model ready. Type your prompt (Ctrl+C to exit)\n")
 
     try:
         while True:
-            user_input = input("You: ").strip()
-            if not user_input:
+            prompt = input("You: ").strip()
+            if not prompt:
                 continue
 
-            response = generate(model, user_input, max_tokens=100, device=device)
-            print("LM:", response)
+            # Generate output using model's built-in generate method
+            output = model.generate(
+                prompt,
+                max_tokens=100,
+                context_length=C.BLOCK_SIZE,
+                device=device,
+                temperature=C.TEMPERATURE,
+                top_p=C.TOP_P,
+            )
+            print("LM:", output)
+
     except KeyboardInterrupt:
-        print("\n👋 Exiting.")
+        print("\n👋 Bye.")
+
+
+if __name__ == "__main__":
+    main()
