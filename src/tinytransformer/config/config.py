@@ -1,40 +1,57 @@
-# config/config.py
 from pathlib import Path
 
-BASE_DIR = Path("src/tinytransformer")
+# ------------------------------------------------------------------ #
+# Resolve paths relative to repo root                                #
+# ------------------------------------------------------------------ #
+_THIS_DIR   = Path(__file__).resolve().parent
+PROJECT_ROOT = _THIS_DIR.parent.parent          # src/
+REPO_ROOT    = PROJECT_ROOT.parent
 
-# ------------------------------------------------------------------
-# Raw / processed data now live under repo‑root/data_external/
-# ------------------------------------------------------------------
-DATA_ROOT = Path("data_external/tinytransformer")
-HF_CACHE = Path("data_external/hf_tinystories")
+# ------------------------------------------------------------------ #
+# Data paths                                                         #
+# ------------------------------------------------------------------ #
+DATA_ROOT = REPO_ROOT / "data_external" / "tinytransformer"
+HF_CACHE  = REPO_ROOT / "data_external" / "hf_tinystories"
 
 DATA_ROOT.mkdir(parents=True, exist_ok=True)
-HF_CACHE.mkdir(parents=True, exist_ok=True)
+HF_CACHE.mkdir(parents=True,  exist_ok=True)
 
-NUM_DATA_EXAMPLES = 100_000 #100,000 for testing, None uses the full datasets
-JSONL_PATH = DATA_ROOT / "tinystories_raw.jsonl"
+NUM_DATA_EXAMPLES = None                       # full dataset if None
+JSONL_PATH  = DATA_ROOT / "tinystories_raw.jsonl"
+TXT_PATH    = DATA_ROOT / "tinystories.txt"
 TOKENS_PATH = DATA_ROOT / "tokens.npy"
-TXT_PATH    = DATA_ROOT / "tinystories.txt"   # alias
-DATA_PATH   = TXT_PATH
+DATA_PATH   = TXT_PATH                         # alias
 
-# Tokenizer
-TOKENIZER_PATH = BASE_DIR / "models" / "tokenizer.json"
-VOCAB_SIZE = 2048
+# ------------------------------------------------------------------ #
+# Tokenizer                                                          #
+# ------------------------------------------------------------------ #
+TOKENIZER_PATH = PROJECT_ROOT / "models" / "tokenizer.json"
+VOCAB_SIZE     = 2048
 SPECIAL_TOKENS = ["[PAD]", "[UNK]", "<|endoftext|>"]
 
-# Model / training
+# ------------------------------------------------------------------ #
+# Training & model                                                   #
+# ------------------------------------------------------------------ #
 BLOCK_SIZE    = 128
 BATCH_SIZE    = 32
 LEARNING_RATE = 3e-4
 NUM_EPOCHS    = 10
 NUM_STEPS     = 1_000
-CHECKPOINT_PATH = "checkpoints/model.pt"
-MODEL_PATH      = "tiny_transformer.pt"
 
-# Architecture
-D_MODEL   = 128
-N_HEAD    = 4
-NUM_LAYERS = 2
+CHECKPOINT_PATH = REPO_ROOT / "checkpoints" / "model.pt"
+MODEL_PATH      = REPO_ROOT / "checkpoints" / "tiny_transformer.pt"
+
+# ------------------------------------------------------------------ #
+# Architecture                                                       #
+# ------------------------------------------------------------------ #
+D_MODEL     = 128
+N_HEAD      = 4
+NUM_LAYERS  = 2
 MAX_SEQ_LEN = 1024
 TRAIN_SPLIT_FRACTION = 0.9
+
+# ------------------------------------------------------------------ #
+# Decoding knobs (default)                                           #
+# ------------------------------------------------------------------ #
+TEMPERATURE = 1.0
+TOP_P       = None        # nucleus disabled by default
