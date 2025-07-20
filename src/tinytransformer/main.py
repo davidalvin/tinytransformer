@@ -1,49 +1,47 @@
 """
 Entry‑point that trains and saves the model.
-The default `get_batch_fn` is the real data loader, so CLI runs work
-out of the box, while tests can still inject a dummy function.
+Supports CLI overrides (e.g., --lr, --num_layers, etc).
 """
 
 import torch
-from tinytransformer.data.data import get_batch          # ← explicit import
-from tinytransformer.models.transformer import TinyTransformerLM
+from tinytransformer.config.cli import parse_and_apply
+parse_and_apply()  # ← apply CLI overrides before loading config
+
+from tinytransformer.config import config as C
+from tinytransformer.data.data import get_batch
+from tinytransformer.models.factory import build_model
 from tinytransformer.training.train import train
-from tinytransformer.config.config import (
-    NUM_STEPS,
-    BATCH_SIZE,
-    BLOCK_SIZE,
-    LEARNING_RATE,
-    MODEL_PATH,
-)
 
 
 def main(
     *,
-    num_steps: int = NUM_STEPS,
-    batch_size: int = BATCH_SIZE,
-    context_length: int = BLOCK_SIZE,
-    lr: float = LEARNING_RATE,
     device: str | torch.device = "cuda" if torch.cuda.is_available() else "cpu",
-    get_batch_fn=get_batch,                    # passes real get_batch - alterantive is to pass a dummy get_batch allows testing
-    model_path: str = MODEL_PATH,
+    get_batch_fn = get_batch,
 ):
     print("🚀 Starting training …")
 
-    model = TinyTransformerLM()
+    model = build_model(
+        "tiny",  # may make this cli at later stage
+        vocab_size=C.VOCAB_SIZE,
+        d_model=C.D_MODEL,
+        nhead=C.N_HEAD,
+        num_layers=C.NUM_LAYERS,
+        max_seq_len=C.MAX_SEQ_LEN,
+    )
 
     trained = train(
         model,
-        num_steps=num_steps,
-        batch_size=batch_size,
-        context_length=context_length,
-        lr=lr,
+        num_steps=C.NUM_STEPS,
+        batch_size=C.BATCH_SIZE,
+        context_length=C.BLOCK_SIZE,
+        lr=C.LEARNING_RATE,
         device=device,
-        get_batch_fn=get_batch_fn,             # always a callable now
+        get_batch_fn=get_batch_fn,
     )
 
     print("💾 Saving model …")
-    torch.save(trained.state_dict(), model_path)
-    print(f"✅ Model saved to {model_path}")
+    torch.save(trained.state_dict(), C.MODEL_PATH)
+    print(f"✅ Model saved to {C.MODEL_PATH}")
 
 
 if __name__ == "__main__":
