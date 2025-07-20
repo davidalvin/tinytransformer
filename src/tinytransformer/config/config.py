@@ -12,7 +12,7 @@ HF_CACHE = Path("data_external/hf_tinystories")
 DATA_ROOT.mkdir(parents=True, exist_ok=True)
 HF_CACHE.mkdir(parents=True, exist_ok=True)
 
-NUM_TRAIN_STORIES = 100_000
+NUM_DATA_EXAMPLES = 100_000 #100,000 for testing, None uses the full datasets
 JSONL_PATH = DATA_ROOT / "tinystories_raw.jsonl"
 TOKENS_PATH = DATA_ROOT / "tokens.npy"
 TXT_PATH    = DATA_ROOT / "tinystories.txt"   # alias
