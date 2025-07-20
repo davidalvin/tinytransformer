@@ -19,7 +19,7 @@ HF_CACHE  = REPO_ROOT / "data_external" / "hf_tinystories"
 DATA_ROOT.mkdir(parents=True, exist_ok=True)
 HF_CACHE.mkdir(parents=True,  exist_ok=True)
 
-NUM_DATA_EXAMPLES = None                       # full dataset if None
+NUM_DATA_EXAMPLES = 100_000                       # full dataset if None
 JSONL_PATH  = DATA_ROOT / "tinystories_raw.jsonl"
 TXT_PATH    = DATA_ROOT / "tinystories.txt"
 TOKENS_PATH = DATA_ROOT / "tokens.npy"
@@ -39,7 +39,7 @@ BLOCK_SIZE    = 128
 BATCH_SIZE    = 32
 LEARNING_RATE = 3e-4
 NUM_EPOCHS    = 10
-NUM_STEPS     = 1_000
+NUM_STEPS     = 1_000 #1_000 for testing
 
 CHECKPOINT_PATH = REPO_ROOT / "checkpoints" / "model.pt"
 MODEL_PATH      = REPO_ROOT / "checkpoints" / "tiny_transformer.pt"
